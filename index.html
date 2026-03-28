@@ -1,106 +1,280 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Zentrix Course</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zentrix Academy</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #020c1b;
-  color: white;
-  text-align: center;
+body{
+margin:0;
+font-family: 'Segoe UI', sans-serif;
+background:#f0f2f5;
 }
 
-.container {
-  padding: 20px;
+/* HEADER */
+.header{
+background:white;
+padding:12px;
+text-align:center;
+font-size:16px;
+font-weight:bold;
 }
 
-.card {
-  background: #0a192f;
-  padding: 20px;
-  border-radius: 15px;
-  margin: 20px;
+/* PROFILE */
+.profile{
+text-align:center;
+padding:15px;
+background:white;
+margin:10px;
+border-radius:15px;
 }
 
-input {
-  padding: 12px;
-  width: 80%;
-  border-radius: 10px;
-  border: none;
-  margin-top: 20px;
+.profile img{
+width:80px;
+height:80px;
+border-radius:50%;
+cursor:pointer;
 }
 
-button {
-  padding: 12px 25px;
-  background: #00c853;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  margin-top: 15px;
+.stats{
+display:flex;
+justify-content:space-around;
+font-size:13px;
+margin-top:10px;
 }
 
-#course {
-  display: none;
+/* COURSE CARD */
+.card{
+background:white;
+margin:10px;
+padding:15px;
+border-radius:15px;
 }
+
+/* BUTTON */
+.btn{
+background:#1877f2;
+color:white;
+padding:10px;
+border:none;
+border-radius:10px;
+margin-top:10px;
+}
+
+/* NAV */
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:10px;
+}
+
+/* SECTION */
+.section{display:none;}
+.active{display:block;}
+
+input{
+padding:10px;
+width:80%;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+/* COMMENT */
+.comment{
+background:#eee;
+padding:8px;
+margin:5px;
+border-radius:10px;
+font-size:13px;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="container">
+<div class="header">🎓 Zentrix Academy</div>
 
-<h1>🎓 Zentrix Course</h1>
+<!-- HOME -->
+<div id="home" class="section active">
 
-<!-- CODE INPUT -->
-<div id="login">
-  <h3>Weka Access Code</h3>
-  <input type="text" id="code" placeholder="Enter code...">
-  <br>
-  <button onclick="checkCode()">Fungua Course</button>
-  <p id="error" style="color:red;"></p>
+<div class="profile">
+<img id="profilePic" src="https://via.placeholder.com/80" onclick="changePic()">
+<h3 id="username">MwakaP Tech</h3>
+
+<div class="stats">
+<div>👥 1200</div>
+<div>👁️ 5K</div>
+</div>
 </div>
 
-<!-- COURSE CONTENT -->
-<div id="course">
+<div class="card">
+<h3>📊 Biashara</h3>
+<button class="btn" onclick="openCourse()">Fungua</button>
+</div>
 
-  <div class="card">
-    <h2>Lesson 1</h2>
-    <video width="100%" controls>
-      <source src="video.mp4" type="video/mp4">
-    </video>
-    <p>Intro</p>
-  </div>
+<div class="card">
+<h3>🎨 Graphics</h3>
+<button class="btn" onclick="openCourse()">Fungua</button>
+</div>
 
-  <div class="card">
-    <h2>Lesson 2</h2>
-    <a href="file.pdf" style="color:#00c853;">Download PDF</a>
-  </div>
-
-  <div class="card">
-    <h2>Lesson 3</h2>
-    <p>Advanced training</p>
-  </div>
+<div class="card">
+<h3>📈 Trading</h3>
+<button class="btn" onclick="openCourse()">Fungua</button>
+</div>
 
 </div>
 
+<!-- COURSE -->
+<div id="course" class="section">
+
+<div class="card">
+<h3>🔐 Weka Code</h3>
+<input id="code">
+<br>
+<button class="btn" onclick="login()">Fungua</button>
+<p id="msg"></p>
+</div>
+
+<div id="lesson" style="display:none">
+
+<div class="card">
+<h3>Lesson 1</h3>
+<p>Hapa utaweka video zako</p>
+</div>
+
+<div class="card">
+<h3>💬 Comments</h3>
+<input id="commentInput" placeholder="andika comment...">
+<button class="btn" onclick="addComment()">Post</button>
+
+<div id="comments"></div>
+</div>
+
+</div>
+
+</div>
+
+<!-- PAYMENT -->
+<div id="payment" class="section">
+<div class="card">
+<h3>💰 Lipa</h3>
+<p>0795 191 608</p>
+
+<a href="https://wa.me/255795191608">
+<button class="btn">WhatsApp</button>
+</a>
+
+<a href="https://t.me/">
+<button class="btn">Telegram</button>
+</a>
+
+</div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="section">
+
+<div class="profile">
+<img id="profilePic2" src="https://via.placeholder.com/80" onclick="changePic()">
+
+<input id="nameInput" placeholder="Badilisha jina">
+<button class="btn" onclick="saveName()">Save</button>
+
+</div>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+<button onclick="show('home')">🏠</button>
+<button onclick="show('course')">📚</button>
+<button onclick="show('payment')">💰</button>
+<button onclick="show('profile')">👤</button>
 </div>
 
 <script>
 
-const validCodes = ["ZENTRIX123", "ADMIN999"]; // codes zako
+/* NAV */
+function show(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
 
-function checkCode() {
-  let userCode = document.getElementById("code").value;
+/* COURSE OPEN */
+function openCourse(){
+show('course');
+}
 
-  if(validCodes.includes(userCode)) {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("course").style.display = "block";
-  } else {
-    document.getElementById("error").innerText = "Code sio sahihi!";
-  }
+/* LOGIN SAVE */
+const codes=["1234","ADMIN999"];
+
+function login(){
+let c=document.getElementById("code").value;
+
+if(codes.includes(c)){
+localStorage.setItem("access","yes");
+document.getElementById("lesson").style.display="block";
+}else{
+document.getElementById("msg").innerText="Wrong code";
+}
+}
+
+/* AUTO LOGIN */
+if(localStorage.getItem("access")==="yes"){
+document.getElementById("lesson").style.display="block";
+}
+
+/* COMMENTS */
+function addComment(){
+let input=document.getElementById("commentInput");
+let comments=JSON.parse(localStorage.getItem("comments"))||[];
+
+comments.push(input.value);
+localStorage.setItem("comments",JSON.stringify(comments));
+input.value="";
+loadComments();
+}
+
+function loadComments(){
+let comments=JSON.parse(localStorage.getItem("comments"))||[];
+let box=document.getElementById("comments");
+box.innerHTML="";
+comments.forEach(c=>{
+box.innerHTML+=`<div class="comment">${c}</div>`;
+});
+}
+loadComments();
+
+/* PROFILE PIC */
+function changePic(){
+let url=prompt("Weka link ya picha");
+if(url){
+document.getElementById("profilePic").src=url;
+document.getElementById("profilePic2").src=url;
+localStorage.setItem("pic",url);
+}
+}
+
+if(localStorage.getItem("pic")){
+document.getElementById("profilePic").src=localStorage.getItem("pic");
+document.getElementById("profilePic2").src=localStorage.getItem("pic");
+}
+
+/* NAME */
+function saveName(){
+let name=document.getElementById("nameInput").value;
+document.getElementById("username").innerText=name;
+localStorage.setItem("name",name);
+}
+
+if(localStorage.getItem("name")){
+document.getElementById("username").innerText=localStorage.getItem("name");
 }
 
 </script>
