@@ -9,7 +9,7 @@ body{
 margin:0;
 font-family:sans-serif;
 background:#0f172a;
-color:white;
+color:#e2e8f0;
 }
 
 .section{display:none;padding:15px;}
@@ -17,20 +17,22 @@ color:white;
 
 input,select{
 width:100%;
-padding:10px;
-margin-top:8px;
-border-radius:10px;
+padding:8px;
+margin-top:6px;
+border-radius:8px;
 border:none;
+font-size:12px;
 }
 
 button{
-background:#22c55e;
+background:#6366f1;
 color:white;
 border:none;
 padding:10px;
 margin-top:10px;
-border-radius:10px;
+border-radius:8px;
 width:100%;
+font-size:12px;
 }
 
 .card{
@@ -38,6 +40,7 @@ background:#1e293b;
 padding:12px;
 border-radius:12px;
 margin-top:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
 }
 
 .nav{
@@ -47,7 +50,12 @@ width:100%;
 background:#1e293b;
 display:flex;
 justify-content:space-around;
-padding:10px;
+padding:8px;
+}
+
+.nav button{
+background:none;
+font-size:18px;
 }
 
 img{
@@ -62,13 +70,12 @@ border-radius:10px;
 
 <!-- REGISTER -->
 <div id="register" class="section active">
-<h2>📋 Create Account</h2>
+<h2>Create Account</h2>
 
-<input id="name" placeholder="Full Name">
-<input id="phone" placeholder="Phone Number">
+<input id="name" placeholder="Full Name" required>
+<input id="phone" placeholder="Phone Number" required>
 
 <select id="country">
-<option>Country</option>
 <option>Tanzania</option>
 </select>
 
@@ -76,7 +83,6 @@ border-radius:10px;
 <input id="district" placeholder="Wilaya">
 
 <select id="gender">
-<option>Gender</option>
 <option>Male</option>
 <option>Female</option>
 </select>
@@ -86,7 +92,6 @@ border-radius:10px;
 
 <input id="idNumber" placeholder="ID Number">
 
-<label>Upload Profile Picture</label>
 <input type="file" id="photo">
 
 <button onclick="register()">Register</button>
@@ -94,7 +99,7 @@ border-radius:10px;
 
 <!-- LOGIN -->
 <div id="login" class="section">
-<h2>🔐 Login</h2>
+<h2>Login</h2>
 <input id="loginName" placeholder="Enter Name">
 <button onclick="login()">Login</button>
 </div>
@@ -103,18 +108,39 @@ border-radius:10px;
 <div id="home" class="section">
 
 <div class="card">
+<h3>Zentrix Academy</h3>
+<p style="font-size:12px;opacity:0.7;">
+Jifunze biashara, graphics na computer skills.
+</p>
+</div>
+
+<div class="card">
+<h3>👥 Users</h3>
+<p id="userCount">0</p>
+</div>
+
+<div class="card">
 <h3 id="welcome"></h3>
 <img id="profilePic">
 <p id="userInfo"></p>
 </div>
 
 <div class="card">
-<h3>Chagua Course</h3>
-<button onclick="openCourse('business')">📊 Business</button>
-<button onclick="openCourse('graphics')">🎨 Graphics</button>
-<button onclick="openCourse('computer')">💻 Computer</button>
+<h3>Courses</h3>
+<button onclick="openCourse('business')">Business</button>
+<button onclick="openCourse('graphics')">Graphics</button>
+<button onclick="openCourse('computer')">Computer</button>
 </div>
 
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="section">
+<div class="card">
+<h3>Profile</h3>
+<img id="profilePic2">
+<p id="userInfo2"></p>
+</div>
 </div>
 
 <!-- COURSE -->
@@ -127,17 +153,41 @@ border-radius:10px;
 </div>
 
 <div class="card">
-<h3>💰 Lipia</h3>
+<h3>Lipia</h3>
 <p>0795191608</p>
 </div>
 
-<button onclick="back()">⬅ Back</button>
+<button onclick="back()">Back</button>
+</div>
+
+<!-- ADVERTISE -->
+<div id="ads" class="section">
+<div class="card">
+<h3>📢 Tangaza Video</h3>
+<p style="font-size:12px;">
+Weka video yako ya matangazo hapa. Gharama: 10,000 Tsh
+</p>
+<p>Lipia: 0795191608</p>
+</div>
+</div>
+
+<!-- SOCIAL -->
+<div id="social" class="section">
+<div class="card">
+<h3>Follow Us</h3>
+<p>📱 WhatsApp: 0795191608</p>
+<p>🎵 TikTok: Zentrix Academy</p>
+<p>📘 Facebook: Zentrix</p>
+</div>
 </div>
 
 <!-- NAV -->
 <div class="nav">
 <button onclick="show('home')">🏠</button>
 <button onclick="show('course')">📚</button>
+<button onclick="show('profile')">👤</button>
+<button onclick="show('ads')">📢</button>
+<button onclick="show('social')">🌐</button>
 </div>
 
 <script>
@@ -150,10 +200,20 @@ document.getElementById(id).classList.add('active');
 /* REGISTER */
 function register(){
 
+if(!name.value || !phone.value){
+alert("Jaza taarifa muhimu");
+return;
+}
+
 let file=document.getElementById("photo").files[0];
 let reader=new FileReader();
 
 reader.onload=function(){
+
+let count = localStorage.getItem("usersCount") || 0;
+count++;
+localStorage.setItem("usersCount", count);
+
 let user={
 name:name.value,
 phone:phone.value,
@@ -162,13 +222,15 @@ region:region.value,
 district:district.value,
 gender:gender.value,
 education:education.value,
-dob:dob.value,
-id:idNumber.value,
 photo:reader.result
 };
 
 localStorage.setItem("user",JSON.stringify(user));
-show('login');
+localStorage.setItem("loggedIn","true");
+
+show('home');
+loadUser();
+
 };
 
 if(file){
@@ -184,19 +246,38 @@ function login(){
 let user=JSON.parse(localStorage.getItem("user"));
 
 if(user && loginName.value===user.name){
-
+localStorage.setItem("loggedIn","true");
 show('home');
+loadUser();
+}else{
+alert("Wrong name");
+}
+}
+
+/* LOAD USER */
+function loadUser(){
+let user=JSON.parse(localStorage.getItem("user"));
+
+if(!user) return;
 
 welcome.innerText="Karibu "+user.name;
 profilePic.src=user.photo;
 
 userInfo.innerText=
-user.country+" | "+user.region+" | "+user.district+
-" | "+user.gender;
+user.country+" | "+user.region+" | "+user.district;
 
-}else{
-alert("Wrong name");
+profilePic2.src=user.photo;
+userInfo2.innerText=
+user.name+" | "+user.phone+" | "+user.education;
+
+let count = localStorage.getItem("usersCount") || 0;
+userCount.innerText = count;
 }
+
+/* AUTO LOGIN */
+if(localStorage.getItem("loggedIn")==="true"){
+show('home');
+loadUser();
 }
 
 /* COURSE */
@@ -205,17 +286,17 @@ show('course');
 
 if(type==="business"){
 courseTitle.innerText="Business Course";
-courseDesc.innerText="Jifunze biashara kuanzia chini hadi juu.";
+courseDesc.innerText="Jifunze biashara step by step.";
 }
 
 if(type==="graphics"){
 courseTitle.innerText="Graphics Design";
-courseDesc.innerText="Jifunze Photoshop na design.";
+courseDesc.innerText="Jifunze Photoshop hadi uwe pro.";
 }
 
 if(type==="computer"){
-courseTitle.innerText="Computer Maintenance";
-courseDesc.innerText="Jifunze computer repair.";
+courseTitle.innerText="Computer Skills";
+courseDesc.innerText="Jifunze matumizi ya computer.";
 }
 }
 
