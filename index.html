@@ -7,100 +7,52 @@
 <style>
 body{
 margin:0;
-font-family:'Segoe UI',sans-serif;
+font-family:sans-serif;
 background:#0f172a;
 color:white;
 }
 
-/* HEADER */
-.header{
-background:#111827;
-padding:12px;
-display:flex;
-justify-content:center;
-align-items:center;
-gap:10px;
-box-shadow:0 2px 10px rgba(0,0,0,0.5);
-}
+.section{display:none;padding:15px;}
+.active{display:block;}
 
-.header img{
-width:35px;
-}
-
-/* PROFILE */
-.profile{
-text-align:center;
-padding:15px;
-background:#1f2937;
-margin:10px;
-border-radius:15px;
-}
-
-.profile img{
-width:80px;
-height:80px;
-border-radius:50%;
-cursor:pointer;
-border:2px solid #3b82f6;
-}
-
-.stats{
-display:flex;
-justify-content:space-around;
-font-size:13px;
-margin-top:10px;
-}
-
-/* CARD */
-.card{
-background:#1f2937;
-margin:10px;
-padding:15px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.4);
-}
-
-/* BUTTON */
-.btn{
-background:#3b82f6;
-color:white;
+input,select{
+width:100%;
 padding:10px;
-border:none;
+margin-top:8px;
 border-radius:10px;
+border:none;
+}
+
+button{
+background:#22c55e;
+color:white;
+border:none;
+padding:10px;
 margin-top:10px;
+border-radius:10px;
 width:100%;
 }
 
-/* NAV */
+.card{
+background:#1e293b;
+padding:12px;
+border-radius:12px;
+margin-top:10px;
+}
+
 .nav{
 position:fixed;
 bottom:0;
 width:100%;
-background:#111827;
+background:#1e293b;
 display:flex;
 justify-content:space-around;
 padding:10px;
 }
 
-/* SECTION */
-.section{display:none;}
-.active{display:block;}
-
-input{
-padding:10px;
-width:90%;
+img{
+width:100%;
 border-radius:10px;
-border:none;
-margin-top:10px;
-}
-
-/* COMMENT */
-.comment{
-background:#374151;
-padding:8px;
-margin:5px;
-border-radius:10px;
-font-size:13px;
 }
 </style>
 
@@ -108,186 +60,166 @@ font-size:13px;
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-<img src="logo.png">
-<h3>Zentrix Academy</h3>
+<!-- REGISTER -->
+<div id="register" class="section active">
+<h2>📋 Create Account</h2>
+
+<input id="name" placeholder="Full Name">
+<input id="phone" placeholder="Phone Number">
+
+<select id="country">
+<option>Country</option>
+<option>Tanzania</option>
+</select>
+
+<input id="region" placeholder="Mkoa">
+<input id="district" placeholder="Wilaya">
+
+<select id="gender">
+<option>Gender</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<input id="education" placeholder="Education Level">
+<input type="date" id="dob">
+
+<input id="idNumber" placeholder="ID Number">
+
+<label>Upload Profile Picture</label>
+<input type="file" id="photo">
+
+<button onclick="register()">Register</button>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="section">
+<h2>🔐 Login</h2>
+<input id="loginName" placeholder="Enter Name">
+<button onclick="login()">Login</button>
 </div>
 
 <!-- HOME -->
-<div id="home" class="section active">
+<div id="home" class="section">
 
-<div class="profile">
-<img id="profilePic" src="https://via.placeholder.com/80" onclick="changePic()">
-<h3 id="username">MwakaP Tech</h3>
-
-<div class="stats">
-<div>👥 1200</div>
-<div>👁️ 5K</div>
-</div>
+<div class="card">
+<h3 id="welcome"></h3>
+<img id="profilePic">
+<p id="userInfo"></p>
 </div>
 
 <div class="card">
-<h3>📊 Biashara</h3>
-<button class="btn" onclick="openCourse()">Fungua</button>
-</div>
-
-<div class="card">
-<h3>🎨 Graphics</h3>
-<button class="btn" onclick="openCourse()">Fungua</button>
-</div>
-
-<div class="card">
-<h3>📈 Trading</h3>
-<button class="btn" onclick="openCourse()">Fungua</button>
+<h3>Chagua Course</h3>
+<button onclick="openCourse('business')">📊 Business</button>
+<button onclick="openCourse('graphics')">🎨 Graphics</button>
+<button onclick="openCourse('computer')">💻 Computer</button>
 </div>
 
 </div>
 
 <!-- COURSE -->
 <div id="course" class="section">
+<h2 id="courseTitle"></h2>
 
 <div class="card">
-<h3>🔐 Weka Code</h3>
-<input id="code">
-<button class="btn" onclick="login()">Fungua</button>
-<p id="msg"></p>
-</div>
-
-<div id="lesson" style="display:none">
-
-<div class="card">
-<h3>Lesson 1</h3>
-<p>Hapa utaweka video zako</p>
+<img src="https://via.placeholder.com/400x200">
+<p id="courseDesc"></p>
 </div>
 
 <div class="card">
-<h3>💬 Comments</h3>
-<input id="commentInput" placeholder="andika comment...">
-<button class="btn" onclick="addComment()">Post</button>
-<div id="comments"></div>
+<h3>💰 Lipia</h3>
+<p>0795191608</p>
 </div>
 
-</div>
-
-</div>
-
-<!-- PAYMENT -->
-<div id="payment" class="section">
-<div class="card">
-<h3>💰 Lipa</h3>
-<p>0795 191 608</p>
-
-<a href="https://wa.me/255795191608">
-<button class="btn">WhatsApp</button>
-</a>
-
-<a href="https://t.me/">
-<button class="btn">Telegram</button>
-</a>
-
-</div>
-</div>
-
-<!-- PROFILE -->
-<div id="profile" class="section">
-
-<div class="profile">
-<img id="profilePic2" src="https://via.placeholder.com/80" onclick="changePic()">
-
-<input id="nameInput" placeholder="Badilisha jina">
-<button class="btn" onclick="saveName()">Save</button>
-
-</div>
-
+<button onclick="back()">⬅ Back</button>
 </div>
 
 <!-- NAV -->
 <div class="nav">
 <button onclick="show('home')">🏠</button>
 <button onclick="show('course')">📚</button>
-<button onclick="show('payment')">💰</button>
-<button onclick="show('profile')">👤</button>
 </div>
 
 <script>
 
-/* NAV */
 function show(id){
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
 }
 
-/* COURSE */
-function openCourse(){
-show('course');
+/* REGISTER */
+function register(){
+
+let file=document.getElementById("photo").files[0];
+let reader=new FileReader();
+
+reader.onload=function(){
+let user={
+name:name.value,
+phone:phone.value,
+country:country.value,
+region:region.value,
+district:district.value,
+gender:gender.value,
+education:education.value,
+dob:dob.value,
+id:idNumber.value,
+photo:reader.result
+};
+
+localStorage.setItem("user",JSON.stringify(user));
+show('login');
+};
+
+if(file){
+reader.readAsDataURL(file);
+}else{
+alert("Upload photo");
+}
+
 }
 
 /* LOGIN */
-const codes=["1234","ADMIN999"];
-
 function login(){
-let c=document.getElementById("code").value;
+let user=JSON.parse(localStorage.getItem("user"));
 
-if(codes.includes(c)){
-localStorage.setItem("access","yes");
-document.getElementById("lesson").style.display="block";
+if(user && loginName.value===user.name){
+
+show('home');
+
+welcome.innerText="Karibu "+user.name;
+profilePic.src=user.photo;
+
+userInfo.innerText=
+user.country+" | "+user.region+" | "+user.district+
+" | "+user.gender;
+
 }else{
-document.getElementById("msg").innerText="Wrong code";
+alert("Wrong name");
 }
 }
 
-/* AUTO LOGIN */
-if(localStorage.getItem("access")==="yes"){
-document.getElementById("lesson").style.display="block";
+/* COURSE */
+function openCourse(type){
+show('course');
+
+if(type==="business"){
+courseTitle.innerText="Business Course";
+courseDesc.innerText="Jifunze biashara kuanzia chini hadi juu.";
 }
 
-/* COMMENTS */
-function addComment(){
-let input=document.getElementById("commentInput");
-let comments=JSON.parse(localStorage.getItem("comments"))||[];
-
-comments.push(input.value);
-localStorage.setItem("comments",JSON.stringify(comments));
-input.value="";
-loadComments();
+if(type==="graphics"){
+courseTitle.innerText="Graphics Design";
+courseDesc.innerText="Jifunze Photoshop na design.";
 }
 
-function loadComments(){
-let comments=JSON.parse(localStorage.getItem("comments"))||[];
-let box=document.getElementById("comments");
-box.innerHTML="";
-comments.forEach(c=>{
-box.innerHTML+=`<div class="comment">${c}</div>`;
-});
-}
-loadComments();
-
-/* PROFILE PIC */
-function changePic(){
-let url=prompt("Weka link ya picha");
-if(url){
-document.getElementById("profilePic").src=url;
-document.getElementById("profilePic2").src=url;
-localStorage.setItem("pic",url);
+if(type==="computer"){
+courseTitle.innerText="Computer Maintenance";
+courseDesc.innerText="Jifunze computer repair.";
 }
 }
 
-if(localStorage.getItem("pic")){
-document.getElementById("profilePic").src=localStorage.getItem("pic");
-document.getElementById("profilePic2").src=localStorage.getItem("pic");
-}
-
-/* NAME */
-function saveName(){
-let name=document.getElementById("nameInput").value;
-document.getElementById("username").innerText=name;
-localStorage.setItem("name",name);
-}
-
-if(localStorage.getItem("name")){
-document.getElementById("username").innerText=localStorage.getItem("name");
-}
+function back(){show('home');}
 
 </script>
 
