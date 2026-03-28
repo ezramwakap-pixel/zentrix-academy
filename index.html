@@ -1,56 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zentrix Academy</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#020617">
+
+<link rel="manifest" href="manifest.json">
 
 <style>
 body{
   margin:0;
-  font-family:Arial;
-  background:#020617;
+  font-family:'Segoe UI';
+  background:linear-gradient(135deg,#020617,#0f172a);
   color:white;
-  text-align:center;
 }
 
 header{
-  background:#0f172a;
-  padding:15px;
-  font-size:20px;
-  font-weight:bold;
+  text-align:center;
+  padding:20px;
+  font-size:22px;
+  background:rgba(255,255,255,0.05);
 }
 
 .hero{
-  padding:40px;
+  text-align:center;
+  padding:40px 20px;
+}
+
+.container{
+  max-width:400px;
+  margin:auto;
 }
 
 .card{
-  background:#0f172a;
+  background:rgba(255,255,255,0.05);
   margin:15px;
   padding:20px;
-  border-radius:12px;
+  border-radius:15px;
 }
 
-input{
+input,button{
+  width:100%;
   padding:12px;
-  width:80%;
-  margin:10px;
-  border-radius:8px;
+  margin-top:10px;
+  border-radius:10px;
   border:none;
 }
 
-.btn{
-  padding:12px 20px;
+button{
   background:#22c55e;
-  border:none;
-  border-radius:8px;
   color:white;
-  cursor:pointer;
 }
 
-.btn:hover{
-  background:#16a34a;
+.copyBtn{
+  background:#3b82f6;
 }
 </style>
 </head>
@@ -60,69 +64,82 @@ input{
 <header>Zentrix Academy 🚀</header>
 
 <div class="hero">
-<h1>Learn. Build. Earn.</h1>
-<p>Ingia na code yako kuanza mafunzo</p>
+<h2>Learn Skills & Make Money 💰</h2>
 </div>
 
-<div class="card">
-<h2>🔐 Ingiza Code</h2>
+<div class="container">
 
-<input type="text" id="code" placeholder="Weka code yako">
-
-<br>
-<button class="btn" onclick="ingia()">Ingia</button>
+<div class="card" id="loginBox">
+<input id="code" placeholder="Enter code">
+<button onclick="login()">Ingia</button>
 </div>
 
-<div class="card">
-<h2>💰 Lipia Mafunzo</h2>
+<div class="card" id="adminPanel" style="display:none;">
+<button onclick="generateCode()">Generate Code</button>
+<p id="newCode"></p>
+<button class="copyBtn" onclick="copyCode()">Copy</button>
+<ul id="codeList"></ul>
+</div>
 
-<p>Airtel Money: <b>139950184</b></p>
-<p>M-Pesa / TigoPesa: <b>0795 191 608</b></p>
-
-<p>Baada ya kulipa utapewa code ya kuingia</p>
 </div>
 
 <script>
 
-// list ya codes
-var validCodes = [
-  "ZENTRIX101",
-  "ZENTRIX202",
-  "ZENTRIX303",
-  "ZENTRIX404",
-  "ZENTRIX505"
-];
+let codes = JSON.parse(localStorage.getItem("codes")) || [];
+let lastCode="";
 
-// codes zilizotumika
-var usedCodes = [];
+function login(){
+let code=document.getElementById("code").value;
 
-function ingia(){
-  var code = document.getElementById("code").value;
-
-  if(code === "ADMIN001"){
-    window.location.href = "course.html";
-    return;
-  }
-
-  if(validCodes.includes(code)){
-
-    if(usedCodes.includes(code)){
-      alert("Code tayari imesha tumika!");
-    }else{
-      usedCodes.push(code);
-      localStorage.setItem("usedCodes", JSON.stringify(usedCodes));
-      window.location.href = "course.html";
-    }
-
-  }else{
-    alert("Code sio sahihi!");
-  }
+if(code==="ADMIN001"){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("adminPanel").style.display="block";
+showCodes();
+return;
 }
 
-// load used codes
-var saved = localStorage.getItem("usedCodes");
-if(saved){
-  usedCodes = JSON.parse(saved);
+let found=codes.find(c=>c.value===code);
+
+if(found){
+if(found.used){
+alert("Used!");
+}else{
+found.used=true;
+localStorage.setItem("codes",JSON.stringify(codes));
+window.location.href="course.html";
+}
+}else{
+alert("Wrong code");
+}
+}
+
+function generateCode(){
+let newCode="ZTX"+Math.floor(Math.random()*100000);
+codes.push({value:newCode,used:false});
+localStorage.setItem("codes",JSON.stringify(codes));
+lastCode=newCode;
+document.getElementById("newCode").innerText=newCode;
+showCodes();
+}
+
+function copyCode(){
+navigator.clipboard.writeText(lastCode);
+alert("Copied");
+}
+
+function showCodes(){
+let list=document.getElementById("codeList");
+list.innerHTML="";
+codes.forEach(c=>{
+let li=document.createElement("li");
+li.innerText=c.value+(c.used?" (used)":"");
+list.appendChild(li);
+});
+}
+
+// PWA install
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('sw.js');
 }
 
 </script>
